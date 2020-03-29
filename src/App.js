@@ -7,7 +7,8 @@ class App extends Component {
     person: [
       { name: "akah", age: 34 },
       { name: "giri", age: 22 }
-    ]
+    ],
+    showPerson: false
   };
 
   switchNameHandler = newName => {
@@ -28,6 +29,13 @@ class App extends Component {
     });
   };
 
+  togglePersonHandler = () => {
+    const doesShow = this.state.showPerson;
+    this.setState({
+      showPerson: !doesShow
+    });
+  };
+
   render() {
     const style = {
       backgroundColor: "white",
@@ -40,22 +48,26 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Welcome to react app</h1>
-        <button onClick={() => this.switchNameHandler("LOLOL")} style={style}>
-          Switch Name
+        <button onClick={this.togglePersonHandler} style={style}>
+          {this.state.showPerson ? "Hide Person" : "Show person"}
         </button>
-        <Person
-          name={this.state.person[0].name}
-          age={this.state.person[0].age}
-          // one way of passing param to a function inside a class
-          click={this.switchNameHandler.bind(this, "NewBindVishal")}
-        />
-        <Person
-          name={this.state.person[1].name}
-          age={this.state.person[1].age}
-          // other way of passing param to a function inside a class
-          click={() => this.switchNameHandler("NewVishal")}
-          changed={this.changeNameHandler}
-        />
+        {this.state.showPerson ? (
+          <div>
+            <Person
+              name={this.state.person[0].name}
+              age={this.state.person[0].age}
+              // one way of passing param to a function inside a class
+              click={this.switchNameHandler.bind(this, "NewBindVishal")}
+            />
+            <Person
+              name={this.state.person[1].name}
+              age={this.state.person[1].age}
+              // other way of passing param to a function inside a class
+              click={() => this.switchNameHandler("NewVishal")}
+              changed={this.changeNameHandler}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }
